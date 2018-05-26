@@ -1,0 +1,20 @@
+
+'use strict';
+var express = require('express');
+var app = express();
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+
+app.get('/api/:idestacion&:idseveridad', function (req, res) {
+    var idestacion = req.params.idestacion;
+    var idestacion = req.params.idseveridad;
+    
+    res.send('Hola Pao');
+  });
+
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!');
+});

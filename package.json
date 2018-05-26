@@ -1,0 +1,28 @@
+{
+  "name": "appmetro",
+  "version": "1.0.1",
+  "description": "Por que 7k es un robo! ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PaolaGuerreroE/tesis.git"
+  },
+  "keywords": [
+    "tesis",
+    "esime",
+    "metro"
+  ],
+  "author": "Dax",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PaolaGuerreroE/tesis/issues"
+  },
+  "homepage": "https://github.com/PaolaGuerreroE/tesis#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "npm": "^6.1.0"
+  }
+}
