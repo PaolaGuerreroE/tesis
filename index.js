@@ -2,7 +2,7 @@
 'use strict';
 var express = require('express');
 var app = express();
-const route = new Graph()
+var route = new Graph();
 
 
 
