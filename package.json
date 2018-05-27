@@ -24,6 +24,7 @@
   "homepage": "https://github.com/PaolaGuerreroE/tesis#readme",
   "dependencies": {
     "express": "^4.16.3",
+    "node-dijkstra": "^2.5.0",
     "npm": "^6.1.0"
   }
 }
