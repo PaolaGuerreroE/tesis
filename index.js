@@ -167,29 +167,26 @@ route.addNode("161", { 162: 1276 });
 route.addNode("162", { 163: 1115 });
 route.addNode("163", { 164: 1298 });
 
-function get_nombre(idestacion) {
+function get_nombre(idestacion,array_nombres) {
     var estaciones = [["observatorio", "1"], ["tacubaya", "2"], ["juanacatlan", "3"], ["chapultepec", "4"], ["sevilla", "5"], ["insurgentes", "6"], ["cuauhtemoc", "7"], ["balderas", "8"], ["salto del agua", "9"], ["isabel la catolica", "10"], ["pino suarez", "11"], ["merced", "12"], ["candelaria", "13"], ["san lazaro", "14"], ["moctezuma", "15"], ["balbuena", "16"], ["boulevard puerto aereo", "17"], ["gomez farias", "18"], ["zaragoza", "19"], ["pantitlan", "20"], ["cuatro caminos", "21"], ["panteones", "22"], ["tacuba", "23"], ["cuitlahuac", "24"], ["popotla", "25"], ["colegio militar", "26"], ["normal", "27"], ["san cosme", "28"], ["revolucion", "29"], ["hidalgo", "30"], ["bellas artes", "31"], ["allende", "32"], ["zocalo", "33"], ["san antonio abad", "34"], ["chabacano", "35"], ["viaducto", "36"], ["xola", "37"], ["villa de cortes", "38"], ["nativitas", "39"], ["portales", "40"], ["ermita", "41"], ["general anaya", "42"], ["tasqueña", "43"], ["indios verdes", "45"], ["deportivo 18 de marzo", "46"], ["potrero", "47"], ["la raza", "48"], ["tlatelolco", "49"], ["guerrero", "50"], ["juarez", "51"], ["niños heroes", "52"], ["hospital general", "53"], ["centro medico", "54"], ["etiopia/plaza de la transparencia", "55"], ["eugenia", "56"], ["division del norte", "57"], ["zapata", "58"], ["coyoacan", "59"], ["viveros/derechos humanos", "60"], ["miguel angel de quevedo", "61"], ["copilco", "62"], ["universidad", "63"], ["martin carrera", "64"], ["talisman", "65"], ["bondojito", "66"], ["consulado", "67"], ["canal del norte", "68"], ["morelos", "69"], ["fray servando", "70"], ["jamaica", "71"], ["santa anita", "72"], ["hangares", "73"], ["terminal aerea", "74"], ["oceania", "75"], ["aragon", "76"], ["eduardo molina", "77"], ["valle gomez", "78"], ["misterios", "79"], ["autobuses del norte", "80"], ["instituto del petroleo", "81"], ["politecnico", "82"], ["el rosario", "83"], ["tezozomoc", "84"], ["azcapotzalco", "85"], ["ferreria/arena ciudad de mexico", "86"], ["norte 45", "87"], ["vallejo", "88"], ["lindavista", "89"], ["la villa/basilica", "90"], ["aquiles serda", "91"], ["camarones", "92"], ["refineria", "93"], ["san joaquin", "94"], ["polanco", "95"], ["auditorio", "96"], ["constituyentes", "97"], ["san pedro de los pinos", "98"], ["san antonio", "99"], ["mixcoac", "100"], ["barranca del muerto", "101"], ["garibaldi/lagunilla", "102"], ["san juan de letran", "103"], ["doctores", "104"], ["obrera", "105"], ["la viga", "106"], ["coyuya", "107"], ["iztacalco", "108"], ["apatlaco", "109"], ["aculco", "110"], ["escuadron 201", "111"], ["atlalilco", "112"], ["iztapalapa", "113"], ["cerro de la estrella", "114"], ["uam-i", "115"], ["constitucion de 1917", "116"], ["patriotismo", "117"], ["chilpancingo", "118"], ["lazaro cardenas", "119"], ["mixiuhca", "120"], ["velodromo", "121"], ["ciudad deportiva", "122"], ["puebla", "123"], ["agricola oriental", "124"], ["canal de san juan", "125"], ["tepalcates", "126"], ["guelatao", "127"], ["peñon viejo", "128"], ["acatitla", "129"], ["santa marta", "130"], ["los reyes", "131"], ["la paz", "132"], ["ciudad azteca", "133"], ["plaza aragon", "134"], ["olimpica", "135"], ["ecatepec", "136"], ["muzquiz", "137"], ["rio de los remedios", "138"], ["impulsora", "139"], ["nezahualcoyotl", "140"], ["villa de aragon", "141"], ["bosque de aragon", "142"], ["deportivo oceania", "143"], ["romero rubio", "144"], ["ricardo flores magon", "145"], ["tepito", "146"], ["lagunilla", "147"], ["buenavista", "148"], ["insurgentes", "149"], ["hospital 20 de noviembre", "150"], ["parque de los venados", "151"], ["eje central", "152"], ["mexicaltzingo", "153"], ["culhuacan", "154"], ["san andres tomatlan", "155"], ["lomas estrella", "156"], ["calle 11", "157"], ["periferico oriente", "158"], ["tezonco", "159"], ["olivos", "160"], ["nopalera", "161"], ["zapotitlan", "162"], ["tlaltenco", "163"], ["tlahuac", "164"]];
-    return new Promise(resolve => {
-        estaciones.forEach(element => {
-            if (element[1] == idestacion) {
-                resolve(element[0])
-            }
-        });
-    })
+    var nombre;
+    estaciones.forEach(element => {
+        if (element[1] == idestacion) {
+            nombre = element[0];
+            array_nombres.push(nombre);
+            return array_nombres;   
+        }
+    });
+
 }
 
 
-function get_ruta_nombres(result) {
-    var array_nombres = [];
-    var response = new Promise(resolve => {
-        for (var i = 0; i <= result.length; i++) {
-            var nombre = get_nombre(i);
-            array_nombres.push(nombre);
-        }
-        resolve(array_nombres);
-    });
-
-    return response;
+function get_ruta_nombres(result,array_nombres) {
+    var nombre;
+    for (var i = 0; i <= result.length; i++) {
+        get_nombre(result[i],array_nombres);
+    }
+    return array_nombres;
 }
 
 
@@ -208,25 +205,27 @@ app.get('/api/reporte/:idestacion&:idseveridad', function (req, res) {
 app.get('/api/ruta/:idinicio&:idfinal', function (req, res) {
     var idinicio = req.params.idinicio;
     var idfinal = req.params.idfinal;
+    var array_nombres = [];
+
+    console.log("inicia",array_nombres);
     var array_num = new Promise(function (resolve, reject) {
         var result = route.path(idinicio, idfinal);
         resolve(result);
     }).then(function (result) {
-        console.log(result);
-        return new Promise(function (resolve, reject) {
-            var aux = get_ruta_nombres(result);
-            console.log(aux);
-            resolve(aux);
-        });
+        console.log("calculo de ruta numerico", result);
+        get_ruta_nombres(result,array_nombres)
+        array_nombres = JSON.stringify(array_nombres);
+        console.log("calculo de nombres",array_nombres);
     });
-    res.send(array_num);
+    array_num.then(res.status(200).send(array_nombres));
 });
-/*
+
 app.listen( process.env.PORT, function () {
     console.log('Example app listening on port !', process.env.PORT);
-});*/
-
-
-app.listen(3000, function () {
-    console.log('Example app listening on port !', process.env.PORT);
 });
+
+/*
+app.listen(3000, function () {
+    console.log('Example app listening on port !', 3000);
+});
+*/
